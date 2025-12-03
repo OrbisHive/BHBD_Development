@@ -1,4 +1,4 @@
-package com.example.bhbd_project
+package com.bhbd.app
 
 import io.flutter.embedding.android.FlutterActivity
 
