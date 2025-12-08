@@ -222,7 +222,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     return Container(
                                       width: 150.w,
                                       margin: EdgeInsets.only(
-                                        right: index == relatedProducts.length - 1 ? 0 : 12, // ✅ last item condition
+                                        right: index == relatedProducts.length - 1 ? 0 : 12,
                                       ),
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(

@@ -3,8 +3,8 @@ import 'package:bhbd_project/src/DashBoard/views/shop/views/product_detail_scree
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../../../../resources/resources.dart';
+import '../Home/views/view_all_courses.dart';
 import '../profile/views/course_card.dart';
 
 class CoursesScreen extends StatefulWidget {
@@ -134,12 +134,17 @@ class _CoursesScreenState extends State<CoursesScreen> {
             fontSize: 16.sp,
           ),
         ),
-        Text(
-          "View all",
-          style: R.textStyles.poppins(
-            color: R.color.buttonColor,
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
+        GestureDetector(
+          onTap: (){
+            Get.to(()=>ViewAllCoursesScreen());
+          },
+          child: Text(
+            "View all",
+            style: R.textStyles.poppins(
+              color: R.color.buttonColor,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ],

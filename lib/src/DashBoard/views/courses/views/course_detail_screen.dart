@@ -1,17 +1,16 @@
 import 'package:bhbd_project/Widgets/height_width_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
-
 import '../../../../../resources/resources.dart';
+import 'module_video_player_screen.dart';
 import 'module_video_screen.dart';
-
 class CourseDetailsScreen extends StatefulWidget {
   final String videoUrl;
-
   const CourseDetailsScreen({super.key, required this.videoUrl});
-
   @override
   State<CourseDetailsScreen> createState() => _CourseDetailsScreenState();
 }
@@ -43,60 +42,66 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
     return Column(
       children: modules.map((e) {
-        return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    e["title"]!,
-                    style: GoogleFonts.poppins(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  heightBox(2),
-                  Row(children: [
-                    Icon(
-                        Icons.timer,
-                        size: 20,
-                        color: R.color.buttonColor
-                    ),
-                    const SizedBox(width: 8),
+        return GestureDetector(
+          onTap: (){
+           Get.to(()=>ModuleVideoPlayerScreen(videoUrl: 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4', moduleTitle: 'title', moduleTime: '57:00', courseTitle: 'hhhhhhh',));
+
+          },
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.shade300),
+            ),
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Text(
-                      e["time"]!,
+                      e["title"]!,
                       style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        color: Colors.grey.shade700,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ],)
-                ],
-              ),
+                    heightBox(2),
+                    Row(children: [
+                      Icon(
+                          Icons.timer,
+                          size: 20,
+                          color: R.color.buttonColor
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        e["time"]!,
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: Colors.grey.shade700,
+                        ),
+                      ),
+                    ],)
+                  ],
+                ),
 
-              Spacer(),
-              Container(
-                height: 36,
-                width: 36,
-                decoration: BoxDecoration(
-                  color: R.color.buttonColor,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFF8E6D73)),
+                Spacer(),
+                Container(
+                  height: 36,
+                  width: 36,
+                  decoration: BoxDecoration(
+                    color: R.color.buttonColor,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: const Color(0xFF8E6D73)),
+                  ),
+                  child: const Icon(
+                    Icons.play_arrow_rounded,
+                    color: Colors.white
+                  ),
                 ),
-                child: const Icon(
-                  Icons.play_arrow_rounded,
-                  color: Colors.white
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }).toList(),
