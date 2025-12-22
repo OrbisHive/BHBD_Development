@@ -8,10 +8,8 @@ import '../../../Widgets/app_button.dart';
 import '../../../resources/resources.dart';
 import '../../../Widgets/height_width_box.dart';
 import 'forgot_password_screen.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }

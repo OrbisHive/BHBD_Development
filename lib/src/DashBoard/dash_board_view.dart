@@ -3,6 +3,7 @@ import 'package:bhbd_project/src/DashBoard/views/Home/home_view.dart';
 import 'package:bhbd_project/src/DashBoard/views/Home/views/notifications.dart';
 import 'package:bhbd_project/src/DashBoard/views/courses/courses_view.dart';
 import 'package:bhbd_project/src/DashBoard/views/profile/views/profile_screen.dart';
+import 'package:bhbd_project/src/DashBoard/views/profile/views/profile_screen_new.dart';
 import 'package:bhbd_project/src/DashBoard/views/shop/shop_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -113,7 +114,7 @@ class _DashBoardViewState extends State<DashBoardView> {
           ShopScreen(),
           CoursesScreen(),
           HomeScreen(),
-          ProfileScreen(),
+          ProfileScreen(), // Using new profile screen
         ],
       ),
 

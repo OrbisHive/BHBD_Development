@@ -122,7 +122,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               AppButton(
                 title: "Send Reset Link",
                 onTap: () {
-                  // Firebase reset function
+                  // TODO: Implement password reset functionality
                 },
                 height: 40.h,
                 fontSize: 13.sp,

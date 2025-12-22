@@ -2,6 +2,7 @@ import 'package:bhbd_project/Widgets/height_width_box.dart';
 import 'package:bhbd_project/src/DashBoard/views/profile/views/change_password.dart';
 import 'package:bhbd_project/src/DashBoard/views/profile/views/language_screen.dart';
 import 'package:bhbd_project/src/DashBoard/views/profile/views/privacy_policy.dart';
+import 'package:bhbd_project/src/DashBoard/views/profile/views/profile_screen_new.dart';
 import 'package:bhbd_project/src/DashBoard/views/profile/views/terms_conditions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,48 +37,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ---- User Info ----
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey[200]!),
-                ),
-                child: Row(
-                  children: [
-                    ClipRRect(child: Image.asset(R.images.shop3, scale: 11)),
-                    // CircleAvatar(
-                    //   radius: 36.r,
-                    //   backgroundImage: const AssetImage('assets/avatar_placeholder.png'),
-                    // ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Bill Norman',
-                            style: GoogleFonts.poppins(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-
-                          Text(
-                            'billnorman@email.com',
-                            style: GoogleFonts.poppins(
-                              fontSize: 13.sp,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              heightBox(10),
+              // // ---- User Info ----
+              // Container(
+              //   padding: EdgeInsets.all(12),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(12),
+              //     border: Border.all(color: Colors.grey[200]!),
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       ClipRRect(child: Image.asset(R.images.shop3, scale: 11)),
+              //       // CircleAvatar(
+              //       //   radius: 36.r,
+              //       //   backgroundImage: const AssetImage('assets/avatar_placeholder.png'),
+              //       // ),
+              //       SizedBox(width: 12.w),
+              //       Expanded(
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Text(
+              //               'Bill Norman',
+              //               style: GoogleFonts.poppins(
+              //                 fontSize: 15.sp,
+              //                 fontWeight: FontWeight.w700,
+              //               ),
+              //             ),
+              //
+              //             Text(
+              //               'billnorman@email.com',
+              //               style: GoogleFonts.poppins(
+              //                 fontSize: 13.sp,
+              //                 color: Colors.grey[600],
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
               // ---- Menu List ----
               Card(
@@ -91,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ListRow(
                       label: 'Edit Profile',
                       onTap:(){
-                        Get.to(()=>EditProfileScreen());
+                        Get.to(()=>ProfileScreenNew());
                       }
                     ),
 

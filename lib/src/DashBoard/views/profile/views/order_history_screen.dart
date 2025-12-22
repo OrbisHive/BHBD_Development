@@ -106,58 +106,69 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             ),
             const SizedBox(height: 20),
 
-            // Active Orders
-            if (isActiveSelected)
-              Expanded(
-                child: ListView(
-                  children: [
-                    orderCard(
-                      orderId: "#404502231",
-                      items: 3,
-                      price: "\$113.79",
-                      images: [
-                        R.images.shampoo2,
-                        R.images.shop1,
-                        R.images.shampoo,
+            // Orders List or Empty State
+            Expanded(
+              child: _buildOrdersContent(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-                      ],
-                    ),
-                    orderCard(
-                      orderId: "#404502232",
-                      items: 1,
-                      price: "\$29.99",
-                      images: [
-                        R.images.shop1,
-                      ],
-                    ),
-                    orderCard(
-                      orderId: "#404502233",
-                      items: 5,
-                      price: "\$250.00",
-                      images: [
-                        R.images.shampoo2,
-                        R.images.shop1,
-                        R.images.shampoo,
-                        R.images.shop3,
+  // Mock orders data - replace with real API data
+  List<Map<String, dynamic>> get activeOrders => [];
+  List<Map<String, dynamic>> get completedOrders => [];
 
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            else
-              orderCard(
-                orderId: "#404502233",
-                items: 5,
-                price: "\$250.00",
-                images: [
-                  R.images.shampoo2,
-                  R.images.shop1,
-                  R.images.shampoo,
-                  R.images.shop3,
+  Widget _buildOrdersContent() {
+    final orders = isActiveSelected ? activeOrders : completedOrders;
 
-                ],
+    if (orders.isEmpty) {
+      return _buildEmptyState();
+    }
+
+    return ListView(
+      children: orders.map((order) {
+        return orderCard(
+          orderId: order['id'] ?? '',
+          items: order['items'] ?? 0,
+          price: order['price'] ?? '\$0.00',
+          images: order['images'] ?? [],
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(24.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.shopping_bag_outlined,
+              size: 64.sp,
+              color: Colors.grey[400],
+            ),
+            SizedBox(height: 16.h),
+            Text(
+              "No orders yet",
+              style: GoogleFonts.poppins(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              "Go to store to place an order.",
+              style: GoogleFonts.poppins(
+                fontSize: 14.sp,
+                color: Colors.grey[600],
+              ),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
