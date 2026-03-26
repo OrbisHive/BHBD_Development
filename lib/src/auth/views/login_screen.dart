@@ -1,3 +1,5 @@
+import 'package:bhbd_project/Constants/main_vm.dart';
+import 'package:bhbd_project/services/queries.dart';
 import 'package:bhbd_project/src/DashBoard/dash_board_view.dart';
 import 'package:bhbd_project/src/auth/views/signUp_screen.dart';
 import 'package:flutter/material.dart';
@@ -161,7 +163,21 @@ class _LoginScreenState extends State<LoginScreen> {
               AppButton(
                 title: "Login",
                 onTap: () {
-                  Get.to(()=>DashBoardView());
+
+                  Map map = {
+                    "query": ApiQuery.loginQuery,
+                    "variables": {
+                      "input": {
+                        "email": "user@email.com",
+                        "password": "12345678"
+                      }
+                    }
+                  };
+
+                  MainVM.authVM(context).login(map: map);
+
+
+                 // Get.to(()=>DashBoardView());
                 },
                 height: 40.h,
                 fontSize: 13.sp,

@@ -1,5 +1,4 @@
 
-import 'package:bhbd_project/utils/show_messages.dart';
 import 'package:flutter/services.dart';
 
 class GlobalFunctions {
@@ -10,9 +9,6 @@ class GlobalFunctions {
         now.difference(currentPress!) > const Duration(seconds: 2)) {
       currentPress = now;
 
-      ShowMessage.toast(
-        "press again to exit",
-      );
 
       return;
     } else {
