@@ -171,7 +171,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide(
-                              color: R.color.buttonColor,
+                              color: R.colors.buttonColor,
                               width: 1.5,
                             ),
                           ),
@@ -210,7 +210,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide(
-                                color: R.color.buttonColor,
+                                color: R.colors.buttonColor,
                                 width: 1.5,
                               ),
                             ),
