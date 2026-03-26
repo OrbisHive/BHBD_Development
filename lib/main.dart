@@ -1,11 +1,19 @@
-import 'package:bhbd_project/src/auth/views/login_screen.dart';
+import 'package:bhbd_project/providers/auth_vm.dart';
+import 'package:bhbd_project/src/auth/views/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider<AuthVM>(create: (_) => AuthVM())],
+      child: const MyApp(),
+    ),
+  );
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -24,10 +32,9 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: LoginScreen(),
+          home: const SignInScreen(),
         );
       },
     );
   }
 }
-

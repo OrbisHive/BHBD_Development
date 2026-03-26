@@ -132,21 +132,61 @@ class CollectionService {
 
     final response = await client.query(queryString);
 
+    // Better null checking
+    if (response['data'] == null) {
+      throw ShopifyException('Invalid API response', code: 'INVALID_RESPONSE');
+    }
+
     final collectionData = response['data']?['collection'];
     if (collectionData == null) {
       throw ShopifyException('Collection not found', code: 'NOT_FOUND');
     }
+    
+    if (collectionData is! Map<String, dynamic>) {
+      throw ShopifyException('Invalid collection data format', code: 'INVALID_FORMAT');
+    }
 
     final collection = CollectionModel.fromJson(collectionData);
 
-    final productsData = collectionData['products'] ?? {};
-    final edges = productsData['edges'] as List? ?? [];
-    final products = edges
-        .map((edge) => ProductModel.fromJson(edge))
-        .toList()
-        .cast<ProductModel>();
+    // Safely get products data
+    final productsData = collectionData['products'];
+    if (productsData == null || productsData is! Map<String, dynamic>) {
+      // Collection exists but has no products
+      return CollectionWithProductsResult(
+        collection: collection,
+        products: [],
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: null,
+        endCursor: null,
+      );
+    }
 
-    final pageInfo = productsData['pageInfo'] ?? {};
+    final edges = productsData['edges'];
+    if (edges == null || edges is! List) {
+      return CollectionWithProductsResult(
+        collection: collection,
+        products: [],
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: null,
+        endCursor: null,
+      );
+    }
+
+    final products = edges
+        .map((edge) {
+          if (edge is Map<String, dynamic>) {
+            return ProductModel.fromJson(edge);
+          }
+          return null;
+        })
+        .whereType<ProductModel>()
+        .toList();
+
+    final pageInfo = productsData['pageInfo'] is Map<String, dynamic>
+        ? productsData['pageInfo'] as Map<String, dynamic>
+        : <String, dynamic>{};
 
     return CollectionWithProductsResult(
       collection: collection,

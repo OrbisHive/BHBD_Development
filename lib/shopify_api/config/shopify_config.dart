@@ -12,7 +12,7 @@
 class ShopifyConfig {
   // Your Shopify store domain (e.g., 'your-shop.myshopify.com')
   // Or use custom domain (e.g., 'shop.yourdomain.com')
-  static const String storeDomain = 'your-shop.myshopify.com';
+  static const String storeDomain = 'bhbd.myshopify.com';
   
   // Storefront API version
   // Use latest stable version: 2025-10

@@ -1,5 +1,4 @@
 import 'package:bhbd_project/Widgets/height_width_box.dart';
-import 'package:bhbd_project/src/DashBoard/views/Home/views/all_products_highlights%20_view.dart';
 import 'package:bhbd_project/src/DashBoard/views/Home/views/bestSeller_all_view.dart';
 import 'package:bhbd_project/src/DashBoard/views/shop/views/product_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,10 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:video_player/video_player.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../resources/resources.dart';
+import '../../../../shopify_api/services/shopify_client.dart';
+import '../../../../shopify_api/services/collection_service.dart';
+import '../../../../shopify_api/models/product_model.dart';
+import '../../../../utils/currency_helper.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +22,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late VideoPlayerController _controller;
+  
+  // Shopify services
+  late ShopifyClient _shopifyClient;
+  late CollectionService _collectionService;
+  
+  // Bestsellers products
+  List<ProductModel> _bestsellersProducts = [];
+  bool _isLoadingBestsellers = true;
+  bool _isLoadingMoreBestsellers = false;
+  String? _bestsellersError;
+  String? _bestsellersCursor; // Cursor for pagination
+  bool _hasMoreBestsellers = false; // Whether there are more products to load
+  ScrollController? _bestsellersScrollController;
 
   @override
   void initState() {
@@ -33,11 +49,149 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {});
             _controller.setLooping(true);
           });
+    
+    // Initialize scroll controller for pagination
+    _bestsellersScrollController = ScrollController();
+    _bestsellersScrollController!.addListener(_onBestsellersScroll);
+    
+    // Initialize Shopify services
+    _initializeShopify();
+  }
+  
+  void _onBestsellersScroll() {
+    // Check if user has scrolled to bottom
+    if (_bestsellersScrollController!.position.pixels >= 
+        _bestsellersScrollController!.position.maxScrollExtent - 200) {
+      // Load more when 200px from bottom
+      if (_hasMoreBestsellers && !_isLoadingMoreBestsellers && !_isLoadingBestsellers) {
+        _loadMoreBestsellers();
+      }
+    }
+  }
+  
+  Future<void> _initializeShopify() async {
+    try {
+      _shopifyClient = ShopifyClient();
+      await _shopifyClient.initialize();
+      _collectionService = CollectionService(_shopifyClient);
+      
+      // Fetch bestsellers products
+      await _fetchBestsellers();
+    } catch (e) {
+      setState(() {
+        _bestsellersError = e.toString();
+        _isLoadingBestsellers = false;
+      });
+    }
+  }
+  
+  Future<void> _fetchBestsellers({bool reset = true}) async {
+    if (reset) {
+      setState(() {
+        _isLoadingBestsellers = true;
+        _bestsellersError = null;
+        _bestsellersProducts = [];
+        _bestsellersCursor = null;
+        _hasMoreBestsellers = false;
+      });
+    }
+    
+    try {
+      print('🔍 Fetching bestsellers collection...');
+      print('📦 Store URL: https://bhbd.myshopify.com/api/2025-10/graphql.json');
+      
+      final result = await _collectionService.getCollectionWithProducts(
+        handle: 'bestsellers',
+        productsFirst: 20, // Fetch 20 products per page
+        productsAfter: reset ? null : _bestsellersCursor,
+        // Note: Collection products are already sorted by Shopify's collection order
+        // No need for sortKey as the collection itself defines the order
+      );
+      
+      print('✅ Successfully fetched ${result.products.length} products');
+      print('📄 Has more: ${result.hasNextPage}, Cursor: ${result.endCursor}');
+      
+      setState(() {
+        if (reset) {
+          _bestsellersProducts = result.products;
+        } else {
+          _bestsellersProducts.addAll(result.products);
+        }
+        _isLoadingBestsellers = false;
+        _hasMoreBestsellers = result.hasNextPage;
+        _bestsellersCursor = result.endCursor;
+      });
+    } catch (e) {
+      // Extract more detailed error message
+      String errorMessage = 'Failed to load products';
+      String debugInfo = '';
+      
+      if (e.toString().contains('NOT_FOUND') || e.toString().contains('not found')) {
+        errorMessage = 'Collection "bestsellers" not found.\n\nPossible solutions:\n1. Check if the collection handle is correct\n2. Ensure the collection is published in Shopify';
+        debugInfo = 'Try checking available collections in Shopify admin.';
+      } else if (e.toString().contains('ACCESS_DENIED') || e.toString().contains('401') || e.toString().contains('403')) {
+        errorMessage = 'Access denied.\n\nPlease add your Storefront API access token in:\nlib/shopify_api/config/shopify_config.dart';
+        debugInfo = 'Get token from: Shopify Admin > Settings > Apps > Develop apps';
+      } else if (e.toString().contains('Network') || e.toString().contains('timeout') || e.toString().contains('SocketException')) {
+        errorMessage = 'Network error.\n\nPlease check your internet connection.';
+        debugInfo = 'Error: ${e.toString()}';
+      } else if (e.toString().contains('MAX_COMPLEXITY')) {
+        errorMessage = 'Query too complex.\n\nTry reducing the number of products or add Storefront API access token.';
+        debugInfo = 'Error: ${e.toString()}';
+      } else {
+        errorMessage = 'Error loading products';
+        debugInfo = 'Details: ${e.toString()}';
+      }
+      
+      print('❌ Error fetching bestsellers: $e');
+      print('📋 Debug info: $debugInfo');
+      
+      setState(() {
+        _bestsellersError = '$errorMessage\n\n$debugInfo';
+        _isLoadingBestsellers = false;
+        _isLoadingMoreBestsellers = false;
+      });
+    }
+  }
+  
+  Future<void> _loadMoreBestsellers() async {
+    if (!_hasMoreBestsellers || _isLoadingMoreBestsellers || _bestsellersCursor == null) {
+      return;
+    }
+    
+    setState(() {
+      _isLoadingMoreBestsellers = true;
+    });
+    
+    try {
+      final result = await _collectionService.getCollectionWithProducts(
+        handle: 'bestsellers',
+        productsFirst: 20,
+        productsAfter: _bestsellersCursor,
+      );
+      
+      print('✅ Loaded ${result.products.length} more products');
+      print('📄 Has more: ${result.hasNextPage}');
+      
+      setState(() {
+        _bestsellersProducts.addAll(result.products);
+        _hasMoreBestsellers = result.hasNextPage;
+        _bestsellersCursor = result.endCursor;
+        _isLoadingMoreBestsellers = false;
+      });
+    } catch (e) {
+      print('❌ Error loading more bestsellers: $e');
+      setState(() {
+        _isLoadingMoreBestsellers = false;
+      });
+    }
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _bestsellersScrollController?.removeListener(_onBestsellersScroll);
+    _bestsellersScrollController?.dispose();
     super.dispose();
   }
 
@@ -56,15 +210,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
             onTap: (){
-           if(index==0){
-             Get.to(()=>SeeAllProductsScreen());
-           } else if(index==1){
-             Get.to(()=>SeeAllProductHighlights());
-           } else{
-             Get.to(()=>SeeAllProductsScreen());
-           }
-            }
-            ,
+              // Navigate to see all bestsellers
+              Get.to(()=>SeeAllProductsScreen());
+            },
             child: Text(
               "See all",
               style: R.textStyles.poppins(
@@ -84,6 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: R.color.backGroundColor,
       body: ListView(
+        controller: _bestsellersScrollController,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
@@ -121,63 +270,113 @@ class _HomeScreenState extends State<HomeScreen> {
 
           heightBox(8),
           buildTitle("Our Bestsellers",0),
-          SizedBox(
-            height: 210.h,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  productCard(
-                    "BHBD Hair Care Essential Kit",
-                    "\$45.89",
-                    "\$54.49",
-                    R.images.shampoo,
-                  ),
-                  widthBox(10),
-                  productCard(
-                    "BHBD Hair Care Essential Kit",
-                    "\$45.89",
-                    "\$54.49",
-                    R.images.shampoo2,
-                  ),
-                  widthBox(10),
-                  productCard(
-                    "BHBD Hair Care Essential Kit",
-                    "\$45.89",
-                    "\$54.49",
-                    R.images.shampoo,
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          buildTitle("Product Highlights",1),
-          heightBox(8),
-          SizedBox(
-            height: 135.h,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.only(left: 16),
-              itemCount: 3,
-              itemBuilder: (context, index) =>
-                  videoCard("Highlights Title", "2:45"),
-            ),
-          ),
-
-          buildTitle("Recommended Courses",2),
-          SizedBox(
-            height: 170.h,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.only(left: 16, bottom: 16),
-              children: [
-                courseCard("Course Title", "Iker Robbio", R.images.course1),
-                courseCard("Course Title", "Anna Kebrics", R.images.course2),
-                courseCard("Course Title", "Iker Robbio", R.images.course1),
-              ],
-            ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: _isLoadingBestsellers
+                ? Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(40.0),
+                      child: CircularProgressIndicator(
+                        color: R.color.buttonColor,
+                      ),
+                    ),
+                  )
+                : _bestsellersError != null
+                    ? Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.error_outline,
+                                color: Colors.red,
+                                size: 40,
+                              ),
+                              SizedBox(height: 12),
+                              Text(
+                                _bestsellersError!,
+                                textAlign: TextAlign.center,
+                                style: R.textStyles.poppins(
+                                  fontSize: 12.sp,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                              ElevatedButton(
+                                onPressed: () => _fetchBestsellers(reset: true),
+                                child: Text(
+                                  'Retry',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: R.color.buttonColor,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 24,
+                                    vertical: 12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : _bestsellersProducts.isEmpty
+                        ? Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(40.0),
+                              child: Text(
+                                'No products found',
+                                style: R.textStyles.poppins(
+                                  fontSize: 12.sp,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 3,
+                                  mainAxisSpacing: 3,
+                                  childAspectRatio: 0.75, // Adjust based on card size
+                                ),
+                                itemCount: _bestsellersProducts.length,
+                                itemBuilder: (context, index) {
+                                  final product = _bestsellersProducts[index];
+                                  return productCardFromModel(product);
+                                },
+                              ),
+                              // Loading indicator for pagination
+                              if (_isLoadingMoreBestsellers)
+                                Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: R.color.buttonColor,
+                                    ),
+                                  ),
+                                ),
+                              // End of list indicator
+                              if (!_hasMoreBestsellers && _bestsellersProducts.isNotEmpty)
+                                Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Center(
+                                    child: Text(
+                                      'No more products',
+                                      style: R.textStyles.poppins(
+                                        fontSize: 12.sp,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
           ),
         ],
       ),
@@ -263,14 +462,61 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Legacy method - keeping for backward compatibility if needed
   Widget productCard(String title, String price, String oldPrice, String img) {
+    return productCardFromModel(null, title: title, price: price, oldPrice: oldPrice, img: img);
+  }
+  
+  // New method using ProductModel from Shopify
+  Widget productCardFromModel(ProductModel? product, {String? title, String? price, String? oldPrice, String? img}) {
+    // Use product data if available, otherwise use provided parameters
+    final productTitle = product?.title ?? title ?? 'Product';
+    final productImages = product?.imageUrls ?? [];
+    final productImage = product?.featuredImageUrl ?? img;
+    final isAvailable = product?.availableForSale ?? true;
+    
+    // Prepare images list for carousel
+    final List<String> imagesToShow = [];
+    if (productImages.isNotEmpty) {
+      imagesToShow.addAll(productImages);
+    } else if (productImage != null && productImage.startsWith('http')) {
+      imagesToShow.add(productImage);
+    } else if (img != null) {
+      imagesToShow.add(img);
+    }
+    
+    // Format price based on device location
+    String currentPrice;
+    if (product?.priceRange?.minVariantPrice != null) {
+      currentPrice = CurrencyHelper.formatShopifyPrice(
+        product!.priceRange!.minVariantPrice.amount,
+        product.priceRange!.minVariantPrice.currencyCode,
+      );
+    } else {
+      currentPrice = price ?? CurrencyHelper.formatPrice(0.0);
+    }
+    
+    // Get original price from compareAtPrice if available (formatted for device location)
+    String? originalPrice;
+    if (product?.compareAtPrice != null) {
+      originalPrice = CurrencyHelper.formatShopifyPrice(
+        product!.compareAtPrice!.amount,
+        product.compareAtPrice!.currencyCode,
+      );
+    }
+    
+    final hasDiscount = originalPrice != null && 
+        product?.priceRange?.minVariantPrice.amount != null &&
+        product?.compareAtPrice?.amount != null;
+    
+    final oldPriceText = oldPrice ?? (hasDiscount ? originalPrice : null);
+    
     return GestureDetector(
       onTap: (){
         Get.to(()=>ProductDetailsScreen());
       },
       child: Container(
-        width: 180.w,
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.all(3),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -284,18 +530,58 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(11),
+                    top: Radius.circular(08),
                   ),
-                  child: Image.asset(
-                    img,
-                    height: 130.h,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                  child: imagesToShow.isNotEmpty && imagesToShow[0].startsWith('http')
+                      ? imagesToShow.length > 1
+                          ? _ProductImageSlider(
+                              images: imagesToShow,
+                              height: 140.h,
+                            )
+                          : Image.network(
+                              imagesToShow[0],
+                              height: 140.h,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Container(
+                                  height: 130.h,
+                                  color: Colors.grey[200],
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress.cumulativeBytesLoaded /
+                                              loadingProgress.expectedTotalBytes!
+                                          : null,
+                                    ),
+                                  ),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) => Container(
+                                height: 130.h,
+                                color: Colors.grey[200],
+                                child: Icon(Icons.error),
+                              ),
+                            )
+                      : productImage != null && !productImage.startsWith('http')
+                          ? Image.asset(
+                              productImage,
+                              height: 130.h,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            )
+                          : Container(
+                              height: 130.h,
+                              color: Colors.grey[200],
+                              child: Icon(Icons.image_not_supported),
+                            ),
                 ),
                 heightBox(8),
                 Text(
-                  title,
+                  productTitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: R.textStyles.poppins(
                     fontWeight: FontWeight.w600,
                     fontSize: 11.sp,
@@ -305,40 +591,66 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   children: [
                     Text(
-                      price,
+                      currentPrice,
                       style: R.textStyles.poppins(
                         color: R.color.commonLightGrey,
                         fontWeight: FontWeight.w600,
                         fontSize: 10.sp,
                       ),
                     ),
-                    SizedBox(width: 6),
-                    Text(
-                      oldPrice,
-                      style: R.textStyles.poppins(
-                        decoration: TextDecoration.lineThrough,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: R.color.commonLightGrey,
+                    if (oldPriceText != null) ...[
+                      SizedBox(width: 6),
+                      Text(
+                        oldPriceText,
+                        style: R.textStyles.poppins(
+                          decoration: TextDecoration.lineThrough,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey[400],
+                        ),
                       ),
-                    ),
+                    ],
                   ],
                 ),
                 heightBox(3),
-                Row(
-                  children: [
-                    Icon(Icons.star, color: R.color.commonLightGrey, size: 18),
-                    SizedBox(width: 3),
-                    Text(
-                      "4.9 (14 reviews)",
-                      style: R.textStyles.poppins(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: R.color.blackColor,
-                      ),
+                // Show sold out or rating
+                if (!isAvailable)
+                  Text(
+                    "Sold out",
+                    style: R.textStyles.poppins(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.red,
                     ),
-                  ],
-                ),
+                  )
+                else if (product?.averageRating != null && product!.averageRating! > 0)
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.amber, size: 16),
+                      SizedBox(width: 2),
+                      Text(
+                        product.averageRating!.toStringAsFixed(1),
+                        style: R.textStyles.poppins(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w500,
+                          color: R.color.blackColor,
+                        ),
+                      ),
+                      if (product.reviewCount != null && product.reviewCount! > 0) ...[
+                        SizedBox(width: 4),
+                        Text(
+                          "(${product.reviewCount} ${product.reviewCount == 1 ? 'review' : 'reviews'})",
+                          style: R.textStyles.poppins(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ],
+                  )
+                else
+                  SizedBox.shrink(), // Hide if no reviews available
               ],
             ),
             Positioned(
@@ -349,34 +661,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     padding: EdgeInsets.all(7),
                     decoration: BoxDecoration(
-                      color: R.color.offerBG,
+                      color: R.color.blackColor,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
                       "Best Seller",
                       style: R.textStyles.poppins(
                         color: Colors.white,
-                        fontSize: 11.sp,
+                        fontSize: 08.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  widthBox(5),
-                  Container(
-                    padding: EdgeInsets.all(7),
-                    decoration: BoxDecoration(
-                      color: R.color.offerBG2,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      "10 % Off",
-                      style: R.textStyles.poppins(
-                        color: Colors.white,
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w600,
+                  if (hasDiscount) ...[
+                    widthBox(5),
+                    Container(
+                      padding: EdgeInsets.all(7),
+                      decoration: BoxDecoration(
+                        color: R.color.offerBG2,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text(
+                        "Sale",
+                        style: R.textStyles.poppins(
+                          color: Colors.white,
+                          fontSize: 08.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),
@@ -522,6 +836,173 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Product Image Slider Widget
+/// Separate StatefulWidget to properly manage PageController
+class _ProductImageSlider extends StatefulWidget {
+  final List<String> images;
+  final double height;
+
+  const _ProductImageSlider({
+    required this.images,
+    required this.height,
+  });
+
+  @override
+  State<_ProductImageSlider> createState() => _ProductImageSliderState();
+}
+
+class _ProductImageSliderState extends State<_ProductImageSlider> {
+  late PageController _pageController;
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _goToPrevious() {
+    if (_currentPage > 0) {
+      _pageController.previousPage(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      // Loop to last image
+      _pageController.jumpToPage(widget.images.length - 1);
+    }
+  }
+
+  void _goToNext() {
+    if (_currentPage < widget.images.length - 1) {
+      _pageController.nextPage(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      // Loop to first image
+      _pageController.jumpToPage(0);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: widget.height,
+      child: Stack(
+        children: [
+          PageView.builder(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() {
+                _currentPage = index;
+              });
+            },
+            itemCount: widget.images.length,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: widget.height,
+                width: double.infinity,
+                child: Image.network(
+                  widget.images[index],
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      height: widget.height,
+                      color: Colors.grey[200],
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    height: widget.height,
+                    color: Colors.grey[200],
+                    child: Icon(Icons.error),
+                  ),
+                ),
+              );
+            },
+          ),
+        // Previous arrow (left)
+        Positioned(
+          left: 8,
+          top: 0,
+          bottom: 0,
+          child: Center(
+            child: GestureDetector(
+              onTap: _goToPrevious,
+              child: Container(
+                width: 27.w,
+                height: 27.w,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.6),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  size: 12,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+          ),
+        ),
+        // Next arrow (right)
+        Positioned(
+          right: 8,
+          top: 0,
+          bottom: 0,
+          child: Center(
+            child: GestureDetector(
+              onTap: _goToNext,
+              child: Container(
+                width: 27.w,
+                height: 27.w,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.6),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 12,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+          ),
+        )],
       ),
     );
   }

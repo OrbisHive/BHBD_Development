@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../resources/resources.dart';
-import 'verification_code_screen.dart';
+import '../../../providers/auth_vm.dart';
+import '../../DashBoard/dash_board_view.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -14,6 +15,8 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
+  final AuthVM _authVM = AuthVM();
+  bool _isEmailNotEmpty = false;
 
   @override
   void dispose() {
@@ -24,26 +27,43 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: const Color(0xFFF5F5F7),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 40.h),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: 460.w,
+                ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.03),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Title
                 Text(
                   "Sign in",
                   style: GoogleFonts.poppins(
-                    fontSize: 28.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 8.h),
+                      SizedBox(height: 6.h),
                 
                 // Subtitle
                 Text(
@@ -52,22 +72,23 @@ class _SignInScreenState extends State<SignInScreen> {
                     fontSize: 14.sp,
                     color: Colors.grey[600],
                   ),
-                  textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 40.h),
+                      SizedBox(height: 28.h),
 
-                // Sign in with shop button
-                ElevatedButton(
+                      // Sign in with shop button (full width)
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
                   onPressed: () {
-                    // TODO: Implement sign in with shop
+                            // Front-end only for now; backend integration will be added later.
                     Get.snackbar('Info', 'Sign in with shop');
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: R.color.buttonColor,
+                            backgroundColor: const Color(0xFF5C3BFF),
                     foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 16.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(12),
                     ),
                     elevation: 0,
                   ),
@@ -75,11 +96,12 @@ class _SignInScreenState extends State<SignInScreen> {
                     "Sign in with shop",
                     style: GoogleFonts.poppins(
                       fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
+                            ),
                     ),
                   ),
                 ),
-                SizedBox(height: 24.h),
+                      SizedBox(height: 28.h),
 
                 // Divider with "or"
                 Row(
@@ -91,12 +113,12 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: Text(
                         "or",
                         style: GoogleFonts.poppins(
                           fontSize: 14.sp,
-                          color: Colors.grey[600],
+                                color: Colors.grey[500],
                         ),
                       ),
                     ),
@@ -114,62 +136,80 @@ class _SignInScreenState extends State<SignInScreen> {
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
+                        onChanged: (value) {
+                          setState(() {
+                            _isEmailNotEmpty = value.trim().isNotEmpty;
+                          });
+                        },
                   decoration: InputDecoration(
                     hintText: "Email",
                     hintStyle: GoogleFonts.poppins(
                       color: Colors.grey[400],
-                      fontSize: 16.sp,
+                            fontSize: 15.sp,
                     ),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: R.color.buttonColor, width: 2),
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: R.color.buttonColor, width: 1.5),
                     ),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 16.w,
-                      vertical: 16.h,
+                            vertical: 14.h,
                     ),
                   ),
                 ),
-                SizedBox(height: 24.h),
+                      SizedBox(height: 20.h),
 
-                // Continue button
-                ElevatedButton(
-                  onPressed: () {
-                    if (_emailController.text.isNotEmpty) {
-                      // Navigate to verification code screen
-                      Get.to(() => VerificationCodeScreen(
-                        email: _emailController.text,
-                      ));
+                      // Continue button (disabled style when email empty, full width)
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _isEmailNotEmpty
+                              ? () async {
+                                  // Save email for token management
+                                  final email = _emailController.text.trim();
+                                  await _authVM.quickLogin(email);
+                                  
+                                  // Skip OTP verification for now - go directly to dashboard
+                                  // User can set profile and fetch store data from dashboard
+                                  Get.offAll(() => const DashBoardView());
                     }
-                  },
+                              : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[300],
-                    foregroundColor: Colors.grey[700],
+                            backgroundColor: _isEmailNotEmpty
+                                ? Colors.black87
+                                : const Color(0xFFF3F3F4),
+                            foregroundColor: _isEmailNotEmpty
+                                ? Colors.white
+                                : Colors.grey[500],
                     padding: EdgeInsets.symmetric(vertical: 16.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(10),
                     ),
                     elevation: 0,
                   ),
                   child: Text(
                     "Continue",
                     style: GoogleFonts.poppins(
-                      fontSize: 16.sp,
+                              fontSize: 15.sp,
                       fontWeight: FontWeight.w600,
                     ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),

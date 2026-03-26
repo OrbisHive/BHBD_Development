@@ -154,8 +154,23 @@ class CollectionQueries {
                   url
                   altText
                 }
+                images(first: 5) {
+                  edges {
+                    node {
+                      id
+                      url
+                      altText
+                      width
+                      height
+                    }
+                  }
+                }
                 priceRange {
                   minVariantPrice {
+                    amount
+                    currencyCode
+                  }
+                  maxVariantPrice {
                     amount
                     currencyCode
                   }
@@ -165,6 +180,14 @@ class CollectionQueries {
                     node {
                       id
                       availableForSale
+                      price {
+                        amount
+                        currencyCode
+                      }
+                      compareAtPrice {
+                        amount
+                        currencyCode
+                      }
                     }
                   }
                 }
