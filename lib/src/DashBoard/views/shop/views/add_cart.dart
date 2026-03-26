@@ -46,7 +46,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       appBar: AppBar(
         toolbarHeight: 70,
         backgroundColor: Colors.transparent,
@@ -248,7 +248,7 @@ class _CartScreenState extends State<CartScreen> {
                 Get.to(()=>CheckoutScreen());
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: R.color.buttonColor,
+                backgroundColor: R.colors.buttonColor,
                 minimumSize:  Size(double.infinity, 40.h),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),

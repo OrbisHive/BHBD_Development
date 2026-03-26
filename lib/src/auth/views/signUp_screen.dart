@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(22.w),
@@ -81,12 +81,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                 ),
               ),
@@ -116,12 +116,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                 ),
               ),
@@ -164,12 +164,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                 ),
               ),
@@ -212,12 +212,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                 ),
               ),
@@ -234,7 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
                 textColor: Colors.white,
-                backgroundColor: R.color.buttonColor,
+                backgroundColor: R.colors.buttonColor,
               ),
 
               heightBox(15),
@@ -258,7 +258,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Text(
                       "Login",
                       style: R.textStyles.poppins(
-                        color: R.color.buttonColor,
+                        color: R.colors.buttonColor,
                         fontWeight: FontWeight.w600,
                         fontSize: 13.sp,
                       ),

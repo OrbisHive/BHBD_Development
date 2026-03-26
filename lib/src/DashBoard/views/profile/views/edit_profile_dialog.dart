@@ -109,7 +109,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: R.color.buttonColor, width: 2),
+                            borderSide: BorderSide(color: R.colors.buttonColor, width: 2),
                           ),
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: 12.w,
@@ -150,7 +150,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: R.color.buttonColor, width: 2),
+                            borderSide: BorderSide(color: R.colors.buttonColor, width: 2),
                           ),
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: 12.w,

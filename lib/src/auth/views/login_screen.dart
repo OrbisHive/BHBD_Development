@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(22.w),
@@ -76,12 +76,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                 ),
               ),
@@ -125,12 +125,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                 ),
               ),
@@ -147,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     "Forgot Password?",
                     style: R.textStyles.poppins(
-                      color: R.color.buttonColor,
+                      color: R.colors.buttonColor,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                     ),
@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
                 textColor: Colors.white,
-                backgroundColor: R.color.buttonColor,
+                backgroundColor: R.colors.buttonColor,
               ),
 
               heightBox(15),
@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       "Sign Up",
                       style: R.textStyles.poppins(
-                        color: R.color.buttonColor,
+                        color: R.colors.buttonColor,
                         fontWeight: FontWeight.w600,
                         fontSize: 12.sp,
                       ),

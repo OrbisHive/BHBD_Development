@@ -21,7 +21,7 @@ class _ShopScreenState extends State<ShopScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(18.0),
@@ -35,10 +35,10 @@ class _ShopScreenState extends State<ShopScreen> {
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: R.color.fieldBorderColor),
+                          borderSide: BorderSide(color: R.colors.fieldBorderColor),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: R.color.fieldBorderColor),
+                          borderSide: BorderSide(color: R.colors.fieldBorderColor),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         filled: true,
@@ -49,7 +49,7 @@ class _ShopScreenState extends State<ShopScreen> {
                           fontSize: 14.sp,
                         ),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: R.color.fieldBorderColor),
+                          borderSide: BorderSide(color: R.colors.fieldBorderColor),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         prefixIcon: Image.asset(R.images.search, scale: 4),
@@ -60,7 +60,7 @@ class _ShopScreenState extends State<ShopScreen> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: R.color.buttonColor2,
+                      color: R.colors.buttonColor2,
                     ),
                     padding: const EdgeInsets.all(16),
                     child: Image.asset(R.images.sort, scale: 3.9),
@@ -147,16 +147,16 @@ class _ShopScreenState extends State<ShopScreen> {
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 11.h),
       margin: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
-        color: isSelected ? R.color.buttonColor : Colors.white,
+        color: isSelected ? R.colors.buttonColor : Colors.white,
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: isSelected ? R.color.buttonColor : Colors.grey[200]!,
+          color: isSelected ? R.colors.buttonColor : Colors.grey[200]!,
         ),
       ),
       child: Text(
         title,
         style: R.textStyles.poppins(
-          color: isSelected ? Colors.white : R.color.blackColor,
+          color: isSelected ? Colors.white : R.colors.blackColor,
           fontSize: 14.sp,
           fontWeight: FontWeight.w500,
         ),
@@ -201,7 +201,7 @@ class _ShopScreenState extends State<ShopScreen> {
                 Text(
                   author,
                   style: R.textStyles.poppins(
-                    color: R.color.blackColor,
+                    color: R.colors.blackColor,
                     fontWeight: FontWeight.w400,
                     fontSize: 12.sp,
                   ),
@@ -212,7 +212,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     Text(
                       "\$12.75",
                       style: R.textStyles.poppins(
-                        color: R.color.commonLightGrey,
+                        color: R.colors.commonLightGrey,
                         fontWeight: FontWeight.w600,
                         fontSize: 11.sp,
                       ),
@@ -221,7 +221,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     Text(
                       "\$15.49",
                       style: R.textStyles.poppins(
-                        color: R.color.commonLightGrey,
+                        color: R.colors.commonLightGrey,
                         fontWeight: FontWeight.w600,
                         fontSize: 11.sp,
                       ),
@@ -287,7 +287,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     Text(
                       price,
                       style: R.textStyles.poppins(
-                        color: R.color.buttonColor,
+                        color: R.colors.buttonColor,
                         fontWeight: FontWeight.w600,
                         fontSize: 12.sp,
                       ),
@@ -299,7 +299,7 @@ class _ShopScreenState extends State<ShopScreen> {
                         decoration: TextDecoration.lineThrough,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
-                        color: R.color.commonLightGrey,
+                        color: R.colors.commonLightGrey,
                       ),
                     ),
                   ],
@@ -307,14 +307,14 @@ class _ShopScreenState extends State<ShopScreen> {
                 heightBox(5),
                 Row(
                   children: [
-                    Icon(Icons.star, color: R.color.buttonColor, size: 18),
+                    Icon(Icons.star, color: R.colors.buttonColor, size: 18),
                     const SizedBox(width: 3),
                     Text(
                       "4.9 (14 reviews)",
                       style: R.textStyles.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: R.color.blackColor,
+                        color: R.colors.blackColor,
                       ),
                     ),
                   ],
@@ -329,7 +329,7 @@ class _ShopScreenState extends State<ShopScreen> {
                   Container(
                     padding: EdgeInsets.all(7),
                     decoration: BoxDecoration(
-                      color: R.color.buttonColor,
+                      color: R.colors.buttonColor,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
@@ -346,7 +346,7 @@ class _ShopScreenState extends State<ShopScreen> {
                       ? Container(
                           padding: EdgeInsets.all(7),
                           decoration: BoxDecoration(
-                            color: R.color.offerBG2,
+                            color: R.colors.offerBG2,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Text(

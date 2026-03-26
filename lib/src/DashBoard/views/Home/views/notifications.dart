@@ -19,7 +19,7 @@ class NotificationsScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -104,7 +104,7 @@ class NotificationsScreen extends StatelessWidget {
                               color: Colors.grey.shade100,
                               borderRadius: BorderRadius.circular(8.r),
                             ),
-                            child: Image.asset(R.images.notificationIcon,color: R.color.notificationIconColor,scale: 4,)
+                            child: Image.asset(R.images.notificationIcon,color: R.colors.notificationIconColor,scale: 4,)
                           ),
                           SizedBox(width: 12.w),
                           Expanded(

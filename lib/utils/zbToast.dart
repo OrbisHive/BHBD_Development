@@ -12,7 +12,7 @@ class ZBotToast {
           return BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10,sigmaY: 10),
             child: SpinKitCircle(
-              color: color ?? R.color.splashBG,
+              color: color ?? R.colors.splashBG,
             ),
           );
         },
@@ -40,7 +40,7 @@ class ZBotToast {
                 padding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 decoration: BoxDecoration(
-                    color: R.color.splashBG,
+                    color: R.colors.splashBG,
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   children: <Widget>[
@@ -77,8 +77,8 @@ class ZBotToast {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: R.color.blackColor,
-        textColor: R.color.whiteColor,
+        backgroundColor: R.colors.blackColor,
+        textColor: R.colors.whiteColor,
         fontSize: 12);
   }
 

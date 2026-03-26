@@ -18,7 +18,7 @@ class AppStyles {
     return GoogleFonts.poppins(
       height: height ?? 1,
       fontSize: fontSize ?? 11.sp,
-      color: color ?? R.color.blackColor,
+      color: color ?? R.colors.blackColor,
       fontWeight: fontWeight ?? FontWeight.w400,
       letterSpacing: letterSpacing ?? 0,
       decoration: decoration,
@@ -40,7 +40,7 @@ class AppStyles {
     return GoogleFonts.archivo(
       height: height ?? 1,
       fontSize: fontSize ?? 11.sp,
-      color: color ?? R.color.blackColor,
+      color: color ?? R.colors.blackColor,
       fontWeight: fontWeight ?? FontWeight.w400,
       letterSpacing: letterSpacing ?? 0,
       decoration: decoration,

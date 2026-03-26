@@ -52,7 +52,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         ),
         centerTitle: false,
       ),
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(22.w),
@@ -106,12 +106,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
+                    BorderSide(color: R.colors.fieldBorderColor, width: 1),
                   ),
                 ),
               ),
@@ -128,7 +128,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
                 textColor: Colors.white,
-                backgroundColor: R.color.buttonColor,
+                backgroundColor: R.colors.buttonColor,
               ),
 
             ],

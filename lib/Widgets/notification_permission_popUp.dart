@@ -59,7 +59,7 @@ class NotificationPermissionPopup extends StatelessWidget {
                             "Don't Allow",
                             style: TextStyle(
                               fontSize: 15,
-                              color: R.color.buttonColor,
+                              color: R.colors.buttonColor,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -78,7 +78,7 @@ class NotificationPermissionPopup extends StatelessWidget {
                             "Allow",
                             style: TextStyle(
                               fontSize: 15,
-                              color: R.color.buttonColor,
+                              color: R.colors.buttonColor,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

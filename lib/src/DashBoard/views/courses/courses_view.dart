@@ -19,7 +19,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(18.0),
@@ -34,10 +34,10 @@ class _CoursesScreenState extends State<CoursesScreen> {
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: R.color.fieldBorderColor),
+                          borderSide: BorderSide(color: R.colors.fieldBorderColor),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: R.color.fieldBorderColor),
+                          borderSide: BorderSide(color: R.colors.fieldBorderColor),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         filled: true,
@@ -48,7 +48,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                           fontSize: 14.sp,
                         ),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: R.color.fieldBorderColor),
+                          borderSide: BorderSide(color: R.colors.fieldBorderColor),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         prefixIcon: Image.asset(R.images.search, scale: 4),
@@ -59,7 +59,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: R.color.buttonColor2,
+                      color: R.colors.buttonColor2,
                     ),
                     padding: const EdgeInsets.all(16),
                     child: Image.asset(R.images.sort, scale: 3.9),
@@ -141,7 +141,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
           child: Text(
             "View all",
             style: R.textStyles.poppins(
-              color: R.color.buttonColor,
+              color: R.colors.buttonColor,
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
             ),

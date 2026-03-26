@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Text(
               "See all",
               style: R.textStyles.poppins(
-                color: R.color.lightGreyColor.withOpacity(.5),
+                color: R.colors.lightGreyColor.withOpacity(.5),
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
               ),
@@ -230,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       body: ListView(
         controller: _bestsellersScrollController,
         children: [
@@ -240,10 +240,10 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: R.color.fieldBorderColor),
+                  borderSide: BorderSide(color: R.colors.fieldBorderColor),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: R.color.fieldBorderColor),
+                  borderSide: BorderSide(color: R.colors.fieldBorderColor),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 filled: true,
@@ -254,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 14.sp,
                 ),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: R.color.fieldBorderColor),
+                  borderSide: BorderSide(color: R.colors.fieldBorderColor),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 prefixIcon: Image.asset(R.images.search, scale: 4),
@@ -277,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding: EdgeInsets.all(40.0),
                       child: CircularProgressIndicator(
-                        color: R.color.buttonColor,
+                        color: R.colors.buttonColor,
                       ),
                     ),
                   )
@@ -310,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: R.color.buttonColor,
+                                  backgroundColor: R.colors.buttonColor,
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 24,
                                     vertical: 12,
@@ -357,7 +357,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   padding: EdgeInsets.all(16.0),
                                   child: Center(
                                     child: CircularProgressIndicator(
-                                      color: R.color.buttonColor,
+                                      color: R.colors.buttonColor,
                                     ),
                                   ),
                                 ),
@@ -439,7 +439,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: R.color.commonLightGrey,
+                  backgroundColor: R.colors.commonLightGrey,
                   foregroundColor: Colors.black,
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   shape: RoundedRectangleBorder(
@@ -451,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: R.textStyles.poppins(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
-                    color: R.color.whiteColor,
+                    color: R.colors.whiteColor,
                   ),
                 ),
               ),
@@ -593,7 +593,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       currentPrice,
                       style: R.textStyles.poppins(
-                        color: R.color.commonLightGrey,
+                        color: R.colors.commonLightGrey,
                         fontWeight: FontWeight.w600,
                         fontSize: 10.sp,
                       ),
@@ -633,7 +633,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: R.textStyles.poppins(
                           fontSize: 11.sp,
                           fontWeight: FontWeight.w500,
-                          color: R.color.blackColor,
+                          color: R.colors.blackColor,
                         ),
                       ),
                       if (product.reviewCount != null && product.reviewCount! > 0) ...[
@@ -661,7 +661,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     padding: EdgeInsets.all(7),
                     decoration: BoxDecoration(
-                      color: R.color.blackColor,
+                      color: R.colors.blackColor,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
@@ -678,7 +678,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       padding: EdgeInsets.all(7),
                       decoration: BoxDecoration(
-                        color: R.color.offerBG2,
+                        color: R.colors.offerBG2,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Text(
@@ -758,7 +758,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             duration,
             style: R.textStyles.poppins(
-              color: R.color.commonLightGrey,
+              color: R.colors.commonLightGrey,
               fontWeight: FontWeight.w600,
               fontSize: 12.sp,
             ),
@@ -805,7 +805,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   author,
                   style: R.textStyles.poppins(
-                    color: R.color.blackColor,
+                    color: R.colors.blackColor,
                     fontWeight: FontWeight.w400,
                     fontSize: 12.sp,
                   ),
@@ -816,7 +816,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "\$12.75",
                       style: R.textStyles.poppins(
-                        color: R.color.commonLightGrey,
+                        color: R.colors.commonLightGrey,
                         fontWeight: FontWeight.w600,
                         fontSize: 11.sp,
                       ),
@@ -825,7 +825,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "\$15.49",
                       style: R.textStyles.poppins(
-                        color: R.color.commonLightGrey,
+                        color: R.colors.commonLightGrey,
                         fontWeight: FontWeight.w600,
                         fontSize: 11.sp,
                       ),

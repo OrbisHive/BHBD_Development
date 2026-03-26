@@ -159,7 +159,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: R.color.buttonColor, width: 1.5),
+                            borderSide: BorderSide(color: R.colors.buttonColor, width: 1.5),
                     ),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 16.w,

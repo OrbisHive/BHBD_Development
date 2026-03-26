@@ -52,7 +52,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   height: 4,
                   width: 40,
                   decoration: BoxDecoration(
-                    color: R.color.splashBG,
+                    color: R.colors.splashBG,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -72,7 +72,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               heightBox(15),
               // Options
               ListTile(
-                leading:  Icon(Icons.photo_camera, color: R.color.buttonColor),
+                leading:  Icon(Icons.photo_camera, color: R.colors.buttonColor),
                 title: Text(
                   "Take a Photo",
                   style: R.textStyles.poppins(
@@ -92,7 +92,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
               ),
               ListTile(
-                leading:  Icon(Icons.photo_library, color: R.color.buttonColor),
+                leading:  Icon(Icons.photo_library, color: R.colors.buttonColor),
                 title: Text(
                   "Choose from Gallery",
                   style: R.textStyles.poppins(
@@ -136,10 +136,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: R.color.backGroundColor,
+        backgroundColor: R.colors.backGroundColor,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         leading: GestureDetector(
@@ -195,7 +195,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
-                        color: R.color.fieldBorderColor,
+                        color: R.colors.fieldBorderColor,
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(12),
@@ -234,7 +234,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             Text(
                               "JPEG/PNG only • Tap to upload",
                               style: R.textStyles.poppins(
-                                color: R.color.lightGreyColor,
+                                color: R.colors.lightGreyColor,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 11.sp,
                               ),
@@ -260,10 +260,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: R.color.fieldBorderColor),
+                      borderSide: BorderSide(color: R.colors.fieldBorderColor),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: R.color.fieldBorderColor),
+                      borderSide: BorderSide(color: R.colors.fieldBorderColor),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     filled: true,
@@ -293,10 +293,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: R.color.fieldBorderColor),
+                      borderSide: BorderSide(color: R.colors.fieldBorderColor),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: R.color.fieldBorderColor),
+                      borderSide: BorderSide(color: R.colors.fieldBorderColor),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     filled: true,
@@ -328,7 +328,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                      color: R.color.fieldBorderColor,
+                      color: R.colors.fieldBorderColor,
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(10),
@@ -342,7 +342,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     decoration: InputDecoration(
                       hintText: "123 456 789",
                       hintStyle: R.textStyles.poppins(
-                        color: R.color.lightGreyColor,
+                        color: R.colors.lightGreyColor,
                         fontSize: 13.sp,
                       ),
                       border: InputBorder.none,
@@ -369,7 +369,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
                   textColor: Colors.white,
-                  backgroundColor: R.color.buttonColor,
+                  backgroundColor: R.colors.buttonColor,
                 ),
               ],
             ),

@@ -110,7 +110,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                           _isDefault = value ?? false;
                         });
                       },
-                      activeColor: R.color.buttonColor,
+                      activeColor: R.colors.buttonColor,
                     ),
                     Text(
                       "This is my default address",
@@ -148,7 +148,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: R.color.buttonColor, width: 2),
+                      borderSide: BorderSide(color: R.colors.buttonColor, width: 2),
                     ),
                     contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                     suffixIcon: Icon(Icons.arrow_drop_down),
@@ -187,7 +187,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: R.color.buttonColor, width: 2),
+                            borderSide: BorderSide(color: R.colors.buttonColor, width: 2),
                           ),
                           contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                         ),
@@ -211,7 +211,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: R.color.buttonColor, width: 2),
+                            borderSide: BorderSide(color: R.colors.buttonColor, width: 2),
                           ),
                           contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                         ),
@@ -238,7 +238,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: R.color.buttonColor, width: 2),
+                      borderSide: BorderSide(color: R.colors.buttonColor, width: 2),
                     ),
                     contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                   ),
@@ -265,7 +265,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: R.color.buttonColor, width: 2),
+                            borderSide: BorderSide(color: R.colors.buttonColor, width: 2),
                           ),
                           contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                         ),
@@ -289,7 +289,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: R.color.buttonColor, width: 2),
+                            borderSide: BorderSide(color: R.colors.buttonColor, width: 2),
                           ),
                           contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                         ),
