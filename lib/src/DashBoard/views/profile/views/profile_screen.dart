@@ -9,21 +9,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../Widgets/list_row_widget.dart';
 import '../../../../../Widgets/logout_sheet.dart';
 import '../../../../../resources/resources.dart';
 import 'edit_profile_screen.dart';
 import 'my_course_screen.dart';
 import 'order_history_screen.dart';
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
-
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
-
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isNotificationOn = true; // initial value
   @override

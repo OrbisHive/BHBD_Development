@@ -1,4 +1,5 @@
 import 'package:bhbd_project/providers/auth_vm.dart';
+import 'package:bhbd_project/src/auth/views/login_screen.dart';
 import 'package:bhbd_project/src/auth/views/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const SignInScreen(),
+          home: const LoginScreen(),
         );
       },
     );

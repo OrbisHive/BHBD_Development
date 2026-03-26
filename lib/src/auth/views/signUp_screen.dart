@@ -7,25 +7,19 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../Widgets/app_button.dart';
 import '../../../resources/resources.dart';
 import '../../../Widgets/height_width_box.dart';
-
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
-
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
-
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
-
   bool obscurePassword = true;
   bool obscureConfirm = true;
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +31,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               heightBox(35),
-
               /// Title
               Text(
                 "Create Account",
@@ -59,38 +52,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
               heightBox(30),
 
               /// Full Name
-              Text(
-                "Full Name",
-                style: R.textStyles.poppins(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13.sp,
-                ),
-              ),
-              heightBox(5),
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "John Doe",
-                  hintStyle: R.textStyles.poppins(
-                    color: Colors.black38,
-                    fontSize: 12.sp,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide:
-                    BorderSide(color: R.color.fieldBorderColor, width: 1),
-                  ),
-                ),
-              ),
-              heightBox(16),
+              // Text(
+              //   "Full Name",
+              //   style: R.textStyles.poppins(
+              //     color: Colors.black,
+              //     fontWeight: FontWeight.w600,
+              //     fontSize: 13.sp,
+              //   ),
+              // ),
+              // heightBox(5),
+              // TextFormField(
+              //   controller: _nameController,
+              //   decoration: InputDecoration(
+              //     filled: true,
+              //     fillColor: Colors.white,
+              //     hintText: "John Doe",
+              //     hintStyle: R.textStyles.poppins(
+              //       color: Colors.black38,
+              //       fontSize: 12.sp,
+              //     ),
+              //     enabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //       borderSide:
+              //       BorderSide(color: R.color.fieldBorderColor, width: 1),
+              //     ),
+              //     focusedBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //       borderSide:
+              //       BorderSide(color: R.color.fieldBorderColor, width: 1),
+              //     ),
+              //   ),
+              // ),
+              // heightBox(16),
 
               /// Email Address
               Text(
@@ -223,8 +216,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
 
               heightBox(35),
-
-              /// Sign Up Button
+              //Sign Up Button
               AppButton(
                 title: "Sign Up",
                 onTap: () {
@@ -236,8 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 textColor: Colors.white,
                 backgroundColor: R.color.buttonColor,
               ),
-
-              heightBox(15),
+              heightBox(25),
 
               /// Already have account?
               Row(

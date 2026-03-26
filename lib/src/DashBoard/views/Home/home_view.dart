@@ -12,10 +12,8 @@ import '../../../../shopify_api/services/shopify_client.dart';
 import '../../../../shopify_api/services/collection_service.dart';
 import '../../../../shopify_api/models/product_model.dart';
 import '../../../../utils/currency_helper.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -35,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
   String? _bestsellersCursor; // Cursor for pagination
   bool _hasMoreBestsellers = false; // Whether there are more products to load
   ScrollController? _bestsellersScrollController;
-
   @override
   void initState() {
     super.initState();
@@ -305,16 +302,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(height: 16),
                               ElevatedButton(
                                 onPressed: () => _fetchBestsellers(reset: true),
-                                child: Text(
-                                  'Retry',
-                                  style: TextStyle(color: Colors.white),
-                                ),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: R.color.buttonColor,
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 24,
                                     vertical: 12,
                                   ),
+                                ),
+                                child: Text(
+                                  'Retry',
+                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
                             ],
