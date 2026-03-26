@@ -72,7 +72,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                       Icon(
                           Icons.timer,
                           size: 20,
-                          color: R.color.buttonColor
+                          color: R.colors.buttonColor
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -91,7 +91,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                   height: 36,
                   width: 36,
                   decoration: BoxDecoration(
-                    color: R.color.buttonColor,
+                    color: R.colors.buttonColor,
                     shape: BoxShape.circle,
                     border: Border.all(color: const Color(0xFF8E6D73)),
                   ),
@@ -113,10 +113,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
     final remainingTime = "00:57:21";
 
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: R.color.backGroundColor,
+        backgroundColor: R.colors.backGroundColor,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         leading: GestureDetector(
@@ -221,7 +221,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                     style: GoogleFonts.poppins(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
-                      color: R.color.buttonColor,
+                      color: R.colors.buttonColor,
                     ),
                   ),
 
@@ -238,7 +238,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                           ),
                         ),
                       ),
-                      Icon(Icons.timer, size: 20, color: R.color.buttonColor),
+                      Icon(Icons.timer, size: 20, color: R.colors.buttonColor),
                       const SizedBox(width: 6),
                       Text(
                         remainingTime,

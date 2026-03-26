@@ -27,7 +27,7 @@ class _SeeAllProductsScreenState extends State<SeeAllProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       appBar: AppBar(
         toolbarHeight: 70,
         backgroundColor: Colors.transparent,
@@ -124,7 +124,7 @@ class _SeeAllProductsScreenState extends State<SeeAllProductsScreen> {
                   Text(
                     price,
                     style: R.textStyles.poppins(
-                      color: R.color.commonLightGrey,
+                      color: R.colors.commonLightGrey,
                       fontWeight: FontWeight.w600,
                       fontSize: 10.sp,
                     ),
@@ -136,7 +136,7 @@ class _SeeAllProductsScreenState extends State<SeeAllProductsScreen> {
                       decoration: TextDecoration.lineThrough,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: R.color.commonLightGrey,
+                      color: R.colors.commonLightGrey,
                     ),
                   ),
                 ],
@@ -144,14 +144,14 @@ class _SeeAllProductsScreenState extends State<SeeAllProductsScreen> {
               heightBox(3),
               Row(
                 children: [
-                  Icon(Icons.star, color: R.color.commonLightGrey, size: 18),
+                  Icon(Icons.star, color: R.colors.commonLightGrey, size: 18),
                   SizedBox(width: 3),
                   Text(
                     "4.9 (14 reviews)",
                     style: R.textStyles.poppins(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: R.color.blackColor,
+                      color: R.colors.blackColor,
                     ),
                   ),
                 ],
@@ -166,7 +166,7 @@ class _SeeAllProductsScreenState extends State<SeeAllProductsScreen> {
                 Container(
                   padding: EdgeInsets.all(7),
                   decoration: BoxDecoration(
-                    color: R.color.offerBG,
+                    color: R.colors.offerBG,
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(
@@ -182,7 +182,7 @@ class _SeeAllProductsScreenState extends State<SeeAllProductsScreen> {
                 Container(
                   padding: EdgeInsets.all(7),
                   decoration: BoxDecoration(
-                    color: R.color.offerBG2,
+                    color: R.colors.offerBG2,
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(

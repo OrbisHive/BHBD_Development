@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 
 class AppColor {
   // Home Screen Colors
@@ -8,6 +10,8 @@ class AppColor {
   Color offerBG2 = const Color(0xFF155562);
   Color splashBG = const Color(0xFF1E4E3F);
   Color buttonColor = const Color(0xFF643C4B);
+  Color red =  Colors.red;
+  Color transparent =  Colors.transparent;
   Color buttonColor2 = const Color(0xFF643C4B);
   Color motivationButton = const Color(0xFFC8C4E6);
   Color primaryColor = const Color(0xFF4B39EF);

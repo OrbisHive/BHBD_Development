@@ -27,10 +27,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: R.color.backGroundColor,
+        backgroundColor: R.colors.backGroundColor,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         leading: GestureDetector(
@@ -121,7 +121,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
                 AppButton(
                   height: 40.h,
-                  backgroundColor: R.color.buttonColor,
+                  backgroundColor: R.colors.buttonColor,
                   textColor: Colors.white,
                   fontWeight: FontWeight.w500,
                   fontSize: 13.sp,
@@ -150,10 +150,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: R.color.fieldBorderColor),
+          borderSide: BorderSide(color: R.colors.fieldBorderColor),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: R.color.fieldBorderColor),
+          borderSide: BorderSide(color: R.colors.fieldBorderColor),
           borderRadius: BorderRadius.circular(10),
         ),
         filled: true,
@@ -169,7 +169,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         suffixIcon: IconButton(
           icon: Icon(
             obscure ? Icons.visibility_off : Icons.visibility,
-            color: R.color.buttonColor
+            color: R.colors.buttonColor
           ),
           onPressed: toggle,
         ),

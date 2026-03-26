@@ -95,7 +95,7 @@ class _SeeAllProductHighlightsState extends State<SeeAllProductHighlights> {
           Text(
             duration,
             style: R.textStyles.poppins(
-              color: R.color.commonLightGrey,
+              color: R.colors.commonLightGrey,
               fontWeight: FontWeight.w600,
               fontSize: 12.sp,
             ),
@@ -108,9 +108,9 @@ class _SeeAllProductHighlightsState extends State<SeeAllProductHighlights> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       appBar: AppBar(
-        backgroundColor: R.color.backGroundColor,
+        backgroundColor: R.colors.backGroundColor,
         elevation: 0,
         title: Text(
           "All Product Highlights",

@@ -57,7 +57,7 @@ class LogoutSheet extends StatelessWidget {
             textColor: Colors.white,
             fontWeight: FontWeight.w500,
             fontSize: 13.sp,
-            backgroundColor: R.color.buttonColor,
+            backgroundColor: R.colors.buttonColor,
           ),
           heightBox(15),
           GestureDetector(

@@ -22,7 +22,7 @@ class _DashBoardViewState extends State<DashBoardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
 
       // ---------------- APP BAR ----------------
       appBar: PreferredSize(
@@ -30,7 +30,7 @@ class _DashBoardViewState extends State<DashBoardView> {
         child: Container(
           height: 90.h,
           decoration: BoxDecoration(
-            color: R.color.backGroundColor,
+            color: R.colors.backGroundColor,
             // boxShadow: [
             //   BoxShadow(
             //     color: Colors.black26.withOpacity(.1),
@@ -126,7 +126,7 @@ class _DashBoardViewState extends State<DashBoardView> {
           height: Get.height * 0.122,
           width: Get.width,
           decoration: BoxDecoration(
-            color: R.color.backGroundColor,
+            color: R.colors.backGroundColor,
             boxShadow: [
               BoxShadow(
                 color: Colors.black26.withOpacity(.1),
@@ -161,7 +161,7 @@ class _DashBoardViewState extends State<DashBoardView> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color:_selectedIndex==index? R.color.buttonColor2:Colors.transparent,
+          color:_selectedIndex==index? R.colors.buttonColor2:Colors.transparent,
           shape: BoxShape.circle,
         ),
         padding: EdgeInsets.all(8),

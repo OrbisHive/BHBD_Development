@@ -18,10 +18,10 @@ class _LanguagesState extends State<Languages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: R.color.backGroundColor,
+        backgroundColor: R.colors.backGroundColor,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         leading: GestureDetector(
@@ -67,7 +67,7 @@ class _LanguagesState extends State<Languages> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: R.color.buttonColor,
+                    color: R.colors.buttonColor,
                     width: 1,
                   ),
                   borderRadius: BorderRadius.circular(12),
@@ -78,7 +78,7 @@ class _LanguagesState extends State<Languages> {
                       isChecked
                           ? Icons.check_circle
                           : Icons.radio_button_unchecked,
-                      color: isChecked ? R.color.buttonColor : Colors.grey,
+                      color: isChecked ? R.colors.buttonColor : Colors.grey,
                     ),
                     SizedBox(width: 10.w),
                     Text(
@@ -98,7 +98,7 @@ class _LanguagesState extends State<Languages> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: R.color.buttonColor,
+                  backgroundColor: R.colors.buttonColor,
                   padding: EdgeInsets.symmetric(vertical: 14.h),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.r),

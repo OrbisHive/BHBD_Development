@@ -16,10 +16,10 @@ class ModuleVideoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: R.color.backGroundColor,
+        backgroundColor: R.colors.backGroundColor,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         leading: GestureDetector(

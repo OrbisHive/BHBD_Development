@@ -57,7 +57,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Expanded(
                   child: AppButton(
                     width: Get.width,
-                    backgroundColor: R.color.buttonColor,
+                    backgroundColor: R.colors.buttonColor,
                     textColor: Colors.white,
                     onTap: () {
                       setState(
@@ -73,8 +73,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   child: AppButton(
                     width: Get.width,
                     fontWeight: FontWeight.w500,
-                    borderColor: R.color.buttonColor,
-                    textColor: R.color.buttonColor,
+                    borderColor: R.colors.buttonColor,
+                    textColor: R.colors.buttonColor,
                     backgroundColor: Colors.transparent,
                     onTap: () => Navigator.pop(context),
                     title: "Cancel",
@@ -91,10 +91,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: R.color.backGroundColor,
+        backgroundColor: R.colors.backGroundColor,
         surfaceTintColor: CupertinoColors.transparent,
         elevation: 0,
         leading: GestureDetector(
@@ -137,7 +137,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   "8 items  •  Total \$113.79",
                   style: GoogleFonts.poppins(
                     fontSize: 12.sp,
-                    color: R.color.buttonColor,
+                    color: R.colors.buttonColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -165,7 +165,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         child: Text(
                           "+ Add New",
                           style: GoogleFonts.poppins(
-                            color: R.color.buttonColor,
+                            color: R.colors.buttonColor,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -186,7 +186,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isSelected
-                                ? R.color.buttonColor
+                                ? R.colors.buttonColor
                                 : Colors.grey.shade300,
                           ),
                           color: isSelected
@@ -198,7 +198,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             Radio(
                               value: index,
                               groupValue: selectedAddressIndex,
-                              activeColor: R.color.buttonColor,
+                              activeColor: R.colors.buttonColor,
                               onChanged: (v) =>
                                   setState(() => selectedAddressIndex = index),
                             ),
@@ -217,7 +217,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     addresses[index]['address']!,
                                     style: GoogleFonts.poppins(
                                       fontSize: 13.sp,
-                                      color: R.color.lightGreyColor,
+                                      color: R.colors.lightGreyColor,
                                     ),
                                   ),
                                 ],
@@ -298,7 +298,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           "\$28.00",
                                           style: GoogleFonts.poppins(
                                             fontWeight: FontWeight.w600,
-                                            color: R.color.buttonColor,
+                                            color: R.colors.buttonColor,
                                           ),
                                         ),
                                         SizedBox(width: 6.w),
@@ -335,7 +335,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   AppButton(
                     title: "Proceed to Pay",
                     onTap: () {},
-                    backgroundColor: R.color.buttonColor,
+                    backgroundColor: R.colors.buttonColor,
                     height: 40.h,
                     fontWeight: FontWeight.w600,
                     textColor: Colors.white,

@@ -70,7 +70,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
         onPressed: () {
           _showAddAddressDialog();
         },
-        backgroundColor: R.color.buttonColor,
+        backgroundColor: R.colors.buttonColor,
         icon: Icon(Icons.add, color: Colors.white),
         label: Text(
           "Add Address",
@@ -119,7 +119,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                 _showAddAddressDialog();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: R.color.buttonColor,
+                backgroundColor: R.colors.buttonColor,
                 padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.h),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -205,7 +205,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                       "Edit",
                       style: GoogleFonts.poppins(
                         fontSize: 14.sp,
-                        color: R.color.buttonColor,
+                        color: R.colors.buttonColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

@@ -83,7 +83,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
         centerTitle: false,
       ),
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -157,7 +157,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               "Shampoo",
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
-                                color: R.color.buttonColor,
+                                color: R.colors.buttonColor,
                                 fontSize: 14.sp,
                               ),
                             ),
@@ -175,7 +175,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 Row(
                                   children: [
                                     Icon(Icons.star,
-                                        color: R.color.buttonColor, size: 22),
+                                        color: R.colors.buttonColor, size: 22),
                                     SizedBox(width: 4),
                                     Text(
                                       "4.7 (21 reviews)",
@@ -275,7 +275,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           SizedBox(height: 4),
                                           Row(
                                             children: [
-                                              Icon(Icons.star, color: R.color.buttonColor, size: 16),
+                                              Icon(Icons.star, color: R.colors.buttonColor, size: 16),
                                               SizedBox(width: 4),
                                               Text(
                                                 product["rating"],
@@ -358,7 +358,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: R.color.buttonColor,
+                  backgroundColor: R.colors.buttonColor,
                   padding: const EdgeInsets.symmetric(
                       horizontal: 25, vertical: 10),
                   shape: RoundedRectangleBorder(

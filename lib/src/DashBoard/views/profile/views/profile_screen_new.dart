@@ -179,7 +179,7 @@ class _ProfileScreenNewState extends State<ProfileScreenNew> {
                           style: GoogleFonts.poppins(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
-                            color: R.color.buttonColor,
+                            color: R.colors.buttonColor,
                           ),
                         ),
                       ),

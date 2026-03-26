@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
 
       body: SafeArea(
         child: SingleChildScrollView(
@@ -114,7 +114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ListRow(
                       label: 'Notifications',
                       trailing: Switch(
-                        activeThumbColor: R.color.buttonColor,
+                        activeThumbColor: R.colors.buttonColor,
                         value: isNotificationOn,
                         onChanged: (value) {
                           setState(() {

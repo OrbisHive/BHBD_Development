@@ -27,7 +27,7 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: R.color.backGroundColor,
+      backgroundColor: R.colors.backGroundColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -47,7 +47,7 @@ class CustomDialog extends StatelessWidget {
               Text(
                 title!,
                 style: R.textStyles.poppins(
-                  color: R.color.blackColor,
+                  color: R.colors.blackColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
                 ),
@@ -61,7 +61,7 @@ class CustomDialog extends StatelessWidget {
               Text(
                 description!,
                 style: R.textStyles.poppins(
-                  color: R.color.lightGreyColor,
+                  color: R.colors.lightGreyColor,
                   fontWeight: FontWeight.w400,
                   fontSize: 16,
                 ),
@@ -76,7 +76,7 @@ class CustomDialog extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: R.color.splashBG,
+                    backgroundColor: R.colors.splashBG,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -112,7 +112,7 @@ class CustomDialog extends StatelessWidget {
                       child: Text(
                         cancelButtonTitle!,
                         style: R.textStyles.poppins(
-                          color: R.color.blackColor,
+                          color: R.colors.blackColor,
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
                         ),

@@ -20,7 +20,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       backgroundColor: const Color(0xFFF8F8F8),
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: R.color.backGroundColor,
+        backgroundColor: R.colors.backGroundColor,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         leading: GestureDetector(
