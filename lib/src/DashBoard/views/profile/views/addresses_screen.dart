@@ -2,30 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../../Constants/main_vm.dart';
 import '../../../../../resources/resources.dart';
 import 'add_address_dialog.dart';
-
 class AddressesScreen extends StatefulWidget {
   const AddressesScreen({super.key});
-
   @override
   State<AddressesScreen> createState() => _AddressesScreenState();
 }
 
 class _AddressesScreenState extends State<AddressesScreen> {
-  // Mock data - replace with real data from API
-  List<Map<String, dynamic>> addresses = [
-    // Uncomment to show addresses:
-    // {
-    //   'id': '1',
-    //   'title': 'Home',
-    //   'address1': '123 Main Street',
-    //   'city': 'Stockholm',
-    //   'country': 'Sweden',
-    //   'zip': '12345',
-    //   'isDefault': true,
-    // },
-  ];
+  List<Map<String, dynamic>> addresses = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAddresses();
+  }
+
+  Future<void> _loadAddresses() async {
+    final list = await MainVM.authVM(context).getAllAddresses();
+    if (!mounted) return;
+    setState(() {
+      addresses = list;
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +59,16 @@ class _AddressesScreenState extends State<AddressesScreen> {
         title: Text(
           "Addresses",
           style: GoogleFonts.poppins(
-            fontSize: 24.sp,
-            fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w700,
             color: Colors.black87,
           ),
         ),
         centerTitle: false,
       ),
-      body: addresses.isEmpty
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : addresses.isEmpty
           ? _buildEmptyState()
           : _buildAddressesList(),
       floatingActionButton: FloatingActionButton.extended(
@@ -95,7 +100,6 @@ class _AddressesScreenState extends State<AddressesScreen> {
               size: 64.sp,
               color: Colors.grey[400],
             ),
-            SizedBox(height: 16.h),
             Text(
               "No addresses added",
               style: GoogleFonts.poppins(
@@ -113,26 +117,26 @@ class _AddressesScreenState extends State<AddressesScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 32.h),
-            ElevatedButton(
-              onPressed: () {
-                _showAddAddressDialog();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: R.colors.buttonColor,
-                padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: Text(
-                "Add Address",
-                style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            // SizedBox(height: 32.h),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     _showAddAddressDialog();
+            //   },
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: R.colors.buttonColor,
+            //     padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.h),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(8),
+            //     ),
+            //   ),
+            //   child: Text(
+            //     "Add Address",
+            //     style: GoogleFonts.poppins(
+            //       color: Colors.white,
+            //       fontWeight: FontWeight.w600,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -160,7 +164,12 @@ class _AddressesScreenState extends State<AddressesScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    address['title'] ?? 'Address',
+                    "${address['firstName'] ?? ''} ${address['lastName'] ?? ''}"
+                            .trim()
+                            .isEmpty
+                        ? 'Address'
+                        : "${address['firstName'] ?? ''} ${address['lastName'] ?? ''}"
+                              .trim(),
                     style: GoogleFonts.poppins(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
@@ -169,7 +178,10 @@ class _AddressesScreenState extends State<AddressesScreen> {
                   ),
                   if (address['isDefault'] == true)
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 4.h,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.green[50],
                         borderRadius: BorderRadius.circular(4),
@@ -187,9 +199,9 @@ class _AddressesScreenState extends State<AddressesScreen> {
               ),
               SizedBox(height: 8.h),
               Text(
-                '${address['address1']}\n${address['city']}, ${address['zip']}\n${address['country']}',
+                'Street/House no: ${address['address1']}${(address['address2'] ?? '').toString().isEmpty ? '' : '\n${address['address2']}'}\nCity : ${address['city']},\nPostal code : ${address['zip']}${(address['province'] ?? '').toString().isEmpty ? '' : ', ${address['province']}'}\nCountry : ${address['country']}',
                 style: GoogleFonts.poppins(
-                  fontSize: 14.sp,
+                  fontSize: 15.sp,
                   color: Colors.grey[700],
                 ),
               ),
@@ -197,32 +209,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      _showAddAddressDialog(address: address);
-                    },
-                    child: Text(
-                      "Edit",
-                      style: GoogleFonts.poppins(
-                        fontSize: 14.sp,
-                        color: R.colors.buttonColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      _deleteAddress(address['id']);
-                    },
-                    child: Text(
-                      "Delete",
-                      style: GoogleFonts.poppins(
-                        fontSize: 14.sp,
-                        color: Colors.red,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                  // TODO: integrate edit/delete APIs when required.
                 ],
               ),
             ],
@@ -234,34 +221,23 @@ class _AddressesScreenState extends State<AddressesScreen> {
 
   void _showAddAddressDialog({Map<String, dynamic>? address}) {
     showDialog(
+      useSafeArea: true,
+      barrierColor: Colors.transparent,
       context: context,
       builder: (context) => AddAddressDialog(
         address: address,
-        onSave: (newAddress) {
-          if (address != null) {
-            // Update existing
-            setState(() {
-              final index = addresses.indexWhere((a) => a['id'] == address['id']);
-              if (index != -1) {
-                addresses[index] = newAddress;
-              }
-            });
-          } else {
-            // Add new
-            setState(() {
-              addresses.add(newAddress);
-            });
-          }
+        onSave: (newAddress) async {
+          final bool created = await MainVM.authVM(
+            context,
+          ).addAddress(address: newAddress);
+          if (!created) return false;
+
+          await _loadAddresses();
+          if (!mounted) return false;
+          Get.snackbar("Success", "Address added successfully");
+          return true;
         },
       ),
     );
   }
-
-  void _deleteAddress(String id) {
-    setState(() {
-      addresses.removeWhere((a) => a['id'] == id);
-    });
-    Get.snackbar('Success', 'Address deleted');
-  }
 }
-

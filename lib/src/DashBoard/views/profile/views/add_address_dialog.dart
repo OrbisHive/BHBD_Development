@@ -6,7 +6,7 @@ import '../../../../../resources/resources.dart';
 
 class AddAddressDialog extends StatefulWidget {
   final Map<String, dynamic>? address;
-  final Function(Map<String, dynamic>) onSave;
+  final Future<bool> Function(Map<String, dynamic>) onSave;
 
   const AddAddressDialog({
     super.key,
@@ -27,8 +27,11 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
   late TextEditingController _firstNameController;
   late TextEditingController _lastNameController;
   late TextEditingController _streetController;
+  late TextEditingController _address2Controller;
   late TextEditingController _postalCodeController;
   late TextEditingController _cityController;
+  late TextEditingController _provinceController;
+  bool _isSaving = false;
 
   final List<String> _countries = [
     'Sweden',
@@ -45,8 +48,10 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
     _firstNameController = TextEditingController(text: widget.address?['firstName'] ?? '');
     _lastNameController = TextEditingController(text: widget.address?['lastName'] ?? '');
     _streetController = TextEditingController(text: widget.address?['address1'] ?? '');
+    _address2Controller = TextEditingController(text: widget.address?['address2'] ?? '');
     _postalCodeController = TextEditingController(text: widget.address?['zip'] ?? '');
     _cityController = TextEditingController(text: widget.address?['city'] ?? '');
+    _provinceController = TextEditingController(text: widget.address?['province'] ?? '');
     _isDefault = widget.address?['isDefault'] ?? false;
     _selectedCountry = widget.address?['country'] ?? 'Sweden';
     _phoneNumber = widget.address?['phone'] ?? '';
@@ -57,19 +62,22 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _streetController.dispose();
+    _address2Controller.dispose();
     _postalCodeController.dispose();
     _cityController.dispose();
+    _provinceController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: Colors.grey.withOpacity(.6),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
       child: Container(
-        padding: EdgeInsets.all(24.w),
+        padding: EdgeInsets.all(12.w),
         constraints: BoxConstraints(maxWidth: 500.w, maxHeight: MediaQuery.of(context).size.height * 0.9),
         child: Form(
           key: _formKey,
@@ -85,7 +93,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     Text(
                       widget.address == null ? "Add address" : "Edit address",
                       style: GoogleFonts.poppins(
-                        fontSize: 20.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
                       ),
@@ -98,8 +106,6 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     ),
                   ],
                 ),
-                SizedBox(height: 24.h),
-
                 // Default address checkbox
                 Row(
                   children: [
@@ -121,7 +127,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     ),
                   ],
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 12.h),
 
                 // Country/Region
                 Text(
@@ -165,7 +171,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     });
                   },
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 8.h),
 
                 // First Name and Last Name Row
                 Row(
@@ -173,6 +179,8 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     Expanded(
                       child: TextFormField(
                         controller: _firstNameController,
+                        validator: (v) =>
+                            (v == null || v.trim().isEmpty) ? "Required" : null,
                         decoration: InputDecoration(
                           hintText: "First name",
                           filled: true,
@@ -197,6 +205,8 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     Expanded(
                       child: TextFormField(
                         controller: _lastNameController,
+                        validator: (v) =>
+                            (v == null || v.trim().isEmpty) ? "Required" : null,
                         decoration: InputDecoration(
                           hintText: "Last name",
                           filled: true,
@@ -219,11 +229,13 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     ),
                   ],
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 8.h),
 
                 // Street and House Number
                 TextFormField(
                   controller: _streetController,
+                  validator: (v) =>
+                      (v == null || v.trim().isEmpty) ? "Street is required" : null,
                   decoration: InputDecoration(
                     hintText: "Street and house number",
                     filled: true,
@@ -243,7 +255,29 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                   ),
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 8.h),
+                TextFormField(
+                  controller: _address2Controller,
+                  decoration: InputDecoration(
+                    hintText: "Apartment, suite, etc. (optional)",
+                    filled: true,
+                    fillColor: Colors.grey[50],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: R.colors.buttonColor, width: 2),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                  ),
+                ),
+                SizedBox(height: 8.h),
 
                 // Postal Code and City/Town Row
                 Row(
@@ -251,6 +285,8 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     Expanded(
                       child: TextFormField(
                         controller: _postalCodeController,
+                        validator: (v) =>
+                            (v == null || v.trim().isEmpty) ? "Required" : null,
                         decoration: InputDecoration(
                           hintText: "Postal code",
                           filled: true,
@@ -275,6 +311,8 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     Expanded(
                       child: TextFormField(
                         controller: _cityController,
+                        validator: (v) =>
+                            (v == null || v.trim().isEmpty) ? "Required" : null,
                         decoration: InputDecoration(
                           hintText: "City/town",
                           filled: true,
@@ -297,7 +335,29 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     ),
                   ],
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 8.h),
+                TextFormField(
+                  controller: _provinceController,
+                  decoration: InputDecoration(
+                    hintText: "Province / State (optional)",
+                    filled: true,
+                    fillColor: Colors.grey[50],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: R.colors.buttonColor, width: 2),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                  ),
+                ),
+                SizedBox(height: 8.h),
 
                 // Phone
                 Text(
@@ -328,7 +388,7 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     },
                   ),
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 10.h),
 
                 // Buttons
                 Row(
@@ -347,39 +407,67 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
                     ),
                     SizedBox(width: 12.w),
                     ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final address = {
-                            'id': widget.address?['id'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
-                            'title': _isDefault ? 'Home' : 'Address',
-                            'firstName': _firstNameController.text,
-                            'lastName': _lastNameController.text,
-                            'address1': _streetController.text,
-                            'city': _cityController.text,
-                            'zip': _postalCodeController.text,
-                            'country': _selectedCountry,
-                            'phone': _phoneNumber,
-                            'isDefault': _isDefault,
-                          };
-                          widget.onSave(address);
-                          Navigator.pop(context);
-                        }
-                      },
+
+                      onPressed: _isSaving
+                          ? null
+                          : () async {
+                              if (!_formKey.currentState!.validate()) return;
+                              if (_phoneNumber.trim().isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Phone number is required"),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              setState(() => _isSaving = true);
+                              final address = {
+                                'firstName': _firstNameController.text.trim(),
+                                'lastName': _lastNameController.text.trim(),
+                                'address1': _streetController.text.trim(),
+                                'address2': _address2Controller.text.trim(),
+                                'city': _cityController.text.trim(),
+                                'country': _selectedCountry,
+                                'province': _provinceController.text.trim(),
+                                'zip': _postalCodeController.text.trim(),
+                                'phone': _phoneNumber.trim(),
+                              };
+                              final String province =
+                                  _provinceController.text.trim();
+                              if (province.isNotEmpty) {
+                                address['province'] = province;
+                              }
+                              final bool saved = await widget.onSave(address);
+                              if (!mounted) return;
+                              setState(() => _isSaving = false);
+                              if (saved) Navigator.pop(context);
+                            },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[800],
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                        backgroundColor: R.colors.buttonColor,
+
+                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: Text(
-                        "Save",
-                        style: GoogleFonts.poppins(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      child: _isSaving
+                          ? SizedBox(
+                              height: 16.h,
+                              width: 16.h,
+                              child: const CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "Save",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                     ),
                   ],
                 ),

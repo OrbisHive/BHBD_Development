@@ -1,4 +1,5 @@
 import 'package:bhbd_project/Widgets/height_width_box.dart';
+import 'package:bhbd_project/src/DashBoard/views/profile/views/addresses_screen.dart';
 import 'package:bhbd_project/src/DashBoard/views/profile/views/change_password.dart';
 import 'package:bhbd_project/src/DashBoard/views/profile/views/language_screen.dart';
 import 'package:bhbd_project/src/DashBoard/views/profile/views/privacy_policy.dart';
@@ -87,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ListRow(
                       label: 'Edit Profile',
                       onTap:(){
-                        Get.to(()=>ProfileScreenNew());
+                        Get.to(()=>EditProfileScreen());
                       }
                     ),
 
@@ -128,6 +129,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       label: 'Language',
                         onTap:(){
                           Get.to(()=>Languages());
+                        }
+                    ),
+                    ListRow(
+                      label: 'Addresses',
+                        onTap:(){
+                          Get.to(()=>AddressesScreen());
                         }
                     ),
 

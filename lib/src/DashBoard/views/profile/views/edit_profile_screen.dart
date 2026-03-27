@@ -1,35 +1,65 @@
 import 'dart:io';
+import 'package:bhbd_project/Constants/main_vm.dart';
+import 'package:bhbd_project/models/customer_profile_model.dart';
 import 'package:bhbd_project/Widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
-
 import '../../../../../Widgets/height_width_box.dart';
 import '../../../../../resources/resources.dart'; //
-
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
-
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController(
-    text: "Bill Norman",
-  );
-  final TextEditingController _emailController = TextEditingController(
-    text: "billnorman@email.com",
-  );
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   File? profileImage;
   final ImagePicker _picker = ImagePicker();
   String? selectedGender;
   bool obscurePassword = true;
-  String fullNumber = "";
+  bool _isProfileLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+  }
+
+  Future<void> _loadProfile() async {
+    final CustomerProfileModel? profileModel = await MainVM.authVM(
+      context,
+    ).getProfile();
+
+    if (!mounted) return;
+
+    final customer = profileModel?.data?.customer;
+    if (customer != null) {
+      final String firstName = (customer.firstName ?? "").trim();
+      final String lastName = (customer.lastName ?? "").trim();
+      _nameController.text = "$firstName $lastName".trim();
+      _emailController.text = customer.email ?? "";
+      _phoneController.text = customer.phone ?? "";
+    }
+
+    setState(() {
+      _isProfileLoading = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   /// Pick Image from Camera/Gallery
   Future<void> _pickImage() async {
@@ -72,7 +102,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               heightBox(15),
               // Options
               ListTile(
-                leading:  Icon(Icons.photo_camera, color: R.colors.buttonColor),
+                leading: Icon(Icons.photo_camera, color: R.colors.buttonColor),
                 title: Text(
                   "Take a Photo",
                   style: R.textStyles.poppins(
@@ -92,7 +122,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
               ),
               ListTile(
-                leading:  Icon(Icons.photo_library, color: R.colors.buttonColor),
+                leading: Icon(Icons.photo_library, color: R.colors.buttonColor),
                 title: Text(
                   "Choose from Gallery",
                   style: R.textStyles.poppins(
@@ -171,210 +201,214 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         centerTitle: false,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(20.w),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Profile Photo
-                Text(
-                  "Profile Photo",
-                  style: R.textStyles.poppins(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13.sp,
-                  ),
-                ),
-                heightBox(8),
-                GestureDetector(
-                  onTap: _pickImage,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: R.colors.fieldBorderColor,
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 32,
-                          backgroundColor: const Color(0xFFF3F3F3),
-                          backgroundImage: profileImage != null
-                              ? FileImage(profileImage!)
-                              : null,
-                          child: profileImage == null
-                              ? const Icon(
-                                  Icons.person,
-                                  size: 34,
-                                  color: Colors.grey,
-                                )
-                              : null,
+        child: _isProfileLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                padding: EdgeInsets.all(20.w),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Profile Photo
+                      Text(
+                        "Profile Photo",
+                        style: R.textStyles.poppins(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13.sp,
                         ),
-                        const SizedBox(width: 16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              profileImage == null
-                                  ? "Upload Profile Photo"
-                                  : "Change Profile Photo",
-                              style: R.textStyles.poppins(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13.sp,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              "JPEG/PNG only • Tap to upload",
-                              style: R.textStyles.poppins(
-                                color: R.colors.lightGreyColor,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 11.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                heightBox(16),
-                // Full Name
-                Text(
-                  "Full Name",
-                  style: R.textStyles.poppins(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13.sp,
-                  ),
-                ),
-                heightBox(5),
-                TextFormField(
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: R.colors.fieldBorderColor),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: R.colors.fieldBorderColor),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "john",
-                    hintStyle: R.textStyles.poppins(
-                      color: Colors.black38,
-                      fontSize: 12.sp,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                heightBox(16),
-                //Email
-                Text(
-                  "Email Address",
-                  style: R.textStyles.poppins(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13.sp,
-                  ),
-                ),
-                heightBox(5),
-                TextFormField(
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: R.colors.fieldBorderColor),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: R.colors.fieldBorderColor),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "john@gmail.com",
-                    hintStyle: R.textStyles.poppins(
-                      color: Colors.black38,
-                      fontSize: 12.sp,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                heightBox(16),
-                // Phone
-                Text(
-                  "Phone Number",
-                  style: R.textStyles.poppins(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13.sp,
-                  ),
-                ),
-                heightBox(5),
-                Container(
-                  padding: EdgeInsets.fromLTRB(8, 26.5, 8, 5),
-                  height: 45.h,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: R.colors.fieldBorderColor,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: IntlPhoneField(
-                    style: R.textStyles.poppins(
-                      color: Colors.black,
-                      fontSize: 13.sp,
-                    ),
-                    textAlign: TextAlign.start,
-                    decoration: InputDecoration(
-                      hintText: "123 456 789",
-                      hintStyle: R.textStyles.poppins(
-                        color: R.colors.lightGreyColor,
-                        fontSize: 13.sp,
                       ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                    initialCountryCode: 'GB', // 🇬🇧 Default to United Kingdom (+44)
-                    dropdownIcon: Icon(Icons.arrow_drop_down, size: 18),
-                    onChanged: (phone) {
-                      setState(() {
-                        fullNumber = phone.completeNumber;
-                      });
-                      print("Phone: ${phone.completeNumber}");
-                    },
-                  ),
-                ),
+                      heightBox(8),
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: R.colors.fieldBorderColor,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 32,
+                                backgroundColor: const Color(0xFFF3F3F3),
+                                backgroundImage: profileImage != null
+                                    ? FileImage(profileImage!)
+                                    : null,
+                                child: profileImage == null
+                                    ? const Icon(
+                                        Icons.person,
+                                        size: 34,
+                                        color: Colors.grey,
+                                      )
+                                    : null,
+                              ),
+                              const SizedBox(width: 16),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    profileImage == null
+                                        ? "Upload Profile Photo"
+                                        : "Change Profile Photo",
+                                    style: R.textStyles.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13.sp,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "JPEG/PNG only • Tap to upload",
+                                    style: R.textStyles.poppins(
+                                      color: R.colors.lightGreyColor,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 11.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      heightBox(16),
+                      // Full Name
+                      Text(
+                        "Full Name",
+                        style: R.textStyles.poppins(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                      heightBox(5),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: R.colors.fieldBorderColor,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: R.colors.fieldBorderColor,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: "john",
+                          hintStyle: R.textStyles.poppins(
+                            color: Colors.black38,
+                            fontSize: 12.sp,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      heightBox(16),
+                      //Email
+                      Text(
+                        "Email Address",
+                        style: R.textStyles.poppins(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                      heightBox(5),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: R.colors.fieldBorderColor,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: R.colors.fieldBorderColor,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: "john@gmail.com",
+                          hintStyle: R.textStyles.poppins(
+                            color: Colors.black38,
+                            fontSize: 12.sp,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      heightBox(16),
+                      // Phone
+                      // Text(
+                      //   "Phone Number",
+                      //   style: R.textStyles.poppins(
+                      //     color: Colors.black,
+                      //     fontWeight: FontWeight.w600,
+                      //     fontSize: 13.sp,
+                      //   ),
+                      // ),
+                      // heightBox(5),
+                      // TextFormField(
+                      //   controller: _phoneController,
+                      //   keyboardType: TextInputType.phone,
+                      //   decoration: InputDecoration(
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       borderSide: BorderSide(
+                      //         color: R.colors.fieldBorderColor,
+                      //       ),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: R.colors.fieldBorderColor,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: Colors.white,
+                      //     hintText: "+923001234567",
+                      //     hintStyle: R.textStyles.poppins(
+                      //       color: Colors.black38,
+                      //       fontSize: 12.sp,
+                      //     ),
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //   ),
+                      // ),
 
-              heightBox(180),
-                AppButton(
-                  title: "Save Changes",
-                  onTap: () {
-                    Get.back();
-                  },
-                  height: 40.h,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w600,
-                  textColor: Colors.white,
-                  backgroundColor: R.colors.buttonColor,
+                      heightBox(30),
+                      AppButton(
+                        title: "Save Changes",
+                        onTap: () {
+                          Get.back();
+                        },
+                        height: 40.h,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
+                        textColor: Colors.white,
+                        backgroundColor: R.colors.buttonColor,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }

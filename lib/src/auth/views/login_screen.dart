@@ -1,6 +1,5 @@
 import 'package:bhbd_project/Constants/main_vm.dart';
 import 'package:bhbd_project/services/queries.dart';
-import 'package:bhbd_project/src/DashBoard/dash_board_view.dart';
 import 'package:bhbd_project/src/auth/views/signUp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +16,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
   bool obscurePassword = true;
 
   final TextEditingController _emailController = TextEditingController();
@@ -168,14 +166,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     "query": ApiQuery.loginQuery,
                     "variables": {
                       "input": {
-                        "email": "user@email.com",
-                        "password": "12345678"
+                        "email": _emailController.text.trim(),
+                        "password": _passwordController.text.trim()
                       }
                     }
                   };
 
                   MainVM.authVM(context).login(map: map);
-
 
                  // Get.to(()=>DashBoardView());
                 },
@@ -202,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   widthBox(5),
                   GestureDetector(
                     onTap: () {
-                      Get.to(()=>SignUpScreen());
+                      Get.off(() => SignUpScreen());
                     },
                     child: Text(
                       "Sign Up",
