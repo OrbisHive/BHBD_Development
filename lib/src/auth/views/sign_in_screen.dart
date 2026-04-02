@@ -9,11 +9,9 @@ import '../../../providers/auth_vm.dart';
 import '../../DashBoard/dash_board_view.dart';
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
-
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
-
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -28,7 +26,6 @@ class _SignInScreenState extends State<SignInScreen> {
     final password = _passwordController.text.trim();
     return _showPasswordField && email.isNotEmpty && password.isNotEmpty;
   }
-
   @override
   void initState() {
     super.initState();

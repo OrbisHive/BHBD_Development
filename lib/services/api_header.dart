@@ -1,7 +1,5 @@
 
 import 'package:bhbd_project/Constants/app_data.dart';
-
-
 class MyHeaders {
   static Map<String, String> header() {
     return {

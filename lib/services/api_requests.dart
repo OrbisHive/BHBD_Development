@@ -5,15 +5,11 @@ import 'dart:io';
 import 'package:bhbd_project/services/api_header.dart';
 import 'package:bhbd_project/services/project_functions.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
 import '../Widgets/show_message_screen.dart';
-
 class ApiRequests {
   Future get({
     String? url,
-
     Function(dynamic)? onSuccess,
     Function(String)? onError,
   }) async
@@ -69,7 +65,6 @@ class ApiRequests {
       ProjectFunctions.mainPrint(
         "this is header: ${jsonEncode(MyHeaders.header())}",
       );
-
       var response = await http
           .delete(Uri.parse(url!), headers: MyHeaders.header(), body: body)
           .timeout(
