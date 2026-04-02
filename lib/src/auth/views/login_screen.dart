@@ -164,20 +164,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 title: "Login",
                 onTap: () {
 
-                  Map map = {
-                    "query": ApiQuery.loginQuery,
-                    "variables": {
-                      "input": {
-                        "email": "user@email.com",
-                        "password": "12345678"
-                      }
-                    }
-                  };
+                  // Map map = {
+                  //   "query": ApiQuery.loginQuery,
+                  //   "variables": {
+                  //     "input": {
+                  //       "email": "user@email.com",
+                  //       "password": "12345678"
+                  //     }
+                  //   }
+                  // };
+                  //
+                  // MainVM.authVM(context).login(map: map);
 
-                  MainVM.authVM(context).login(map: map);
 
-
-                 // Get.to(()=>DashBoardView());
+                  Get.to(()=>DashBoardView());
                 },
                 height: 40.h,
                 fontSize: 13.sp,
